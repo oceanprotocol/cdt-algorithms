@@ -52,7 +52,7 @@ def line_counter(job_details):
                 non_blank_count += 1
     print ('number of non-blank lines found %d' % non_blank_count)
     """ Print that number to output to generate algo output"""
-    f = open("/data/output/result", "w")
+    f = open("/data/outputs/result", "w")
     f.write(str(non_blank_count))
     f.close()
 
