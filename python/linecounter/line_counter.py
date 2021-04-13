@@ -29,7 +29,7 @@ def get_job_details():
                         index = 0
                         for file in service['attributes']['main']['files']:
                             job['files'][did].append(
-                                '/data/input/' + did + '/' + str(index))
+                                '/data/inputs/' + did + '/' + str(index))
                             index = index + 1
     if algo_did is not None:
         job['algo']['did'] = algo_did
