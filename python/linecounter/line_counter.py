@@ -25,7 +25,6 @@ def get_job_details():
                 # search for metadata service
                 for service in ddo['service']:
                     if service['type'] == 'metadata':
-                        job['metadata'][did] = service['attributes']['additionalInformation']
                         job['files'][did] = list()
                         index = 0
                         for file in service['attributes']['main']['files']:
