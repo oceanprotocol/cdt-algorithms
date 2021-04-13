@@ -5,7 +5,6 @@ import time
 import json
 
 
-
 # -------------provider interface ------------
 def get_job_details():
     """Reads in metadata information about assets used by the algo"""
@@ -30,13 +29,13 @@ def get_job_details():
                         job['files'][did] = list()
                         index = 0
                         for file in service['attributes']['main']['files']:
-                            job['files'][did].append('/data/input/' + did + '/' + str(index))
+                            job['files'][did].append(
+                                '/data/input/' + did + '/' + str(index))
                             index = index + 1
     if algo_did is not None:
         job['algo']['did'] = algo_did
         job['algo']['ddo_path'] = '/data/ddos/' + algo_did
     return job
-
 
 
 def line_counter(job_details):
@@ -45,19 +44,19 @@ def line_counter(job_details):
     print(json.dumps(job_details, sort_keys=True, indent=4))
 
     """ Now, count the lines of the first file in first did """
-    first_did=job_details['dids'][0]
-    filename=job_details['files'][first_did][0]
+    first_did = job_details['dids'][0]
+    filename = job_details['files'][first_did][0]
     non_blank_count = 0
     with open(filename) as infp:
-    for line in infp:
-       if line.strip():
-          non_blank_count += 1
-    print 'number of non-blank lines found %d' % non_blank_count
+        for line in infp:
+            if line.strip():
+                non_blank_count += 1
+    print ('number of non-blank lines found %d' % non_blank_count)
     """ Print that number to output to generate algo output"""
     f = open("/data/output/result", "w")
     f.write(str(non_blank_count))
     f.close()
-    
+
 
 if __name__ == '__main__':
     line_counter(get_job_details())
