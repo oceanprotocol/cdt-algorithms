@@ -4,8 +4,8 @@
 #
 import matplotlib
 import numpy
+from branin_mesh import create_mesh
 from matplotlib import cm, pyplot
-from python.gpr import create_mesh
 from sklearn import gaussian_process
 
 matplotlib.use("agg")
