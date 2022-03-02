@@ -1,12 +1,14 @@
+#
+# Copyright 2022 Ocean Protocol Foundation
+# SPDX-License-Identifier: Apache-2.0
+#
 import matplotlib
-matplotlib.use('agg')
-
-from matplotlib import cm, pyplot
-from mpl_toolkits.mplot3d import Axes3D
 import numpy
+from gpr import create_mesh
+from matplotlib import cm, pyplot
 from sklearn import gaussian_process
 
-from gpr import create_mesh
+matplotlib.use("agg")
 
 
 def arff_string(title, name, X, y):
@@ -69,8 +71,8 @@ def model_sin_1d():
 
     # plot
     fig, ax = pyplot.subplots()
-    line1, = ax.plot(xvec, y, label='y')
-    line2, = ax.plot(xvec, yhat, label='yhat', linestyle="dashed", marker="o")
+    (line1,) = ax.plot(xvec, y, label="y")
+    (line2,) = ax.plot(xvec, yhat, label="yhat", linestyle="dashed", marker="o")
     ax.legend()
     pyplot.show()
 
@@ -81,7 +83,7 @@ def model_branin_2d():
     X0, X1, Z = create_mesh(npoints)
 
     # shape data for modeling
-    X = numpy.empty((X0.shape[0]*X0.shape[1], 2))
+    X = numpy.empty((X0.shape[0] * X0.shape[1], 2))
     X[:, 0] = numpy.ravel(X0)
     X[:, 1] = numpy.ravel(X1)
     y = numpy.ravel(Z)
@@ -89,8 +91,7 @@ def model_branin_2d():
     # surface plot - just data
     if False:
         fig, ax = pyplot.subplots(subplot_kw={"projection": "3d"})
-        ax.plot_surface(X0, X1, Z, cmap=cm.coolwarm,
-                        linewidth=0, antialiased=False)
+        ax.plot_surface(X0, X1, Z, cmap=cm.coolwarm, linewidth=0, antialiased=False)
         pyplot.title("Data")
         pyplot.show()
 
@@ -103,4 +104,4 @@ def model_branin_2d():
 
 if __name__ == "__main__":
     model_branin_2d()
-    #model_sin_1d()
+    # model_sin_1d()
