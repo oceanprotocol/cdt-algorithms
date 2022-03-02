@@ -2,10 +2,12 @@
 Copyright 2022 Ocean Protocol Foundation
 SPDX-License-Identifier: Apache-2.0
 -->
-# branin
-Create [branin dataset](1) in ARFF. Run the Run the Plot it too.
+# Branin and GPR (Gaussian Process Regressor)
 
-[1]: (https://statisticaloddsandends.wordpress.com/2019/06/24/test-functions-for-optimization-and-the-branin-hoo-function/)
+Create the [branin dataset][1] in ARFF format. Train a [Gaussian Process Regressor][2] on it.
+
+[1]: https://statisticaloddsandends.wordpress.com/2019/06/24/test-functions-for-optimization-and-the-branin-hoo-function/
+[2]: https://scikit-learn.org/stable/modules/gaussian_process.html#gaussian-process
 
 ### Requirements
 
@@ -13,9 +15,6 @@ Create [branin dataset](1) in ARFF. Run the Run the Plot it too.
 
 ### Installation
 ```
-#get repo
-git clone git clone https://github.com/trentmc/branin.git
-cd branin
 
 #install non-virtualenv dependencies
 sudo apt-get install python3-tk
@@ -36,7 +35,7 @@ To create the branin datasest:
 python branin.py
 ```
 
-To run the GPR algorithm locally, using the data saved in `branin.arff`. The model will be saved in `gpr.out`.
+To run the GPR algorithm locally, using the data saved in `branin.arff`. The model will be saved in `gpr.pickle`.
 ```console
 python gpr.py local
 ```
@@ -46,13 +45,10 @@ Unpickling the result, in a Python console or script.:
 pickle.load(open("gpr.pickle", "rb"))
 ```
 
-Running for OCEAN compute-to-data (assumes "DIDS" is set as an environment variable, input relies in `/data/ddos`, and output is sent to `/data/outputs/result`):
+Running for OCEAN compute-to-data (assumes "DIDS" is set as an environment variable, input relies on `/data/ddos`, and output is sent to `/data/outputs/result`):
 ```console
 python gpr.py
 ```
-
-Unpickling is similar to the local version, just change the name of the file to open.
-
 
 ### ARFF
 [branin.arff](branin.arff)

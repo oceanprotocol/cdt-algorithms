@@ -5,9 +5,8 @@
 import matplotlib
 import numpy
 from matplotlib import cm, pyplot
-from sklearn import gaussian_process
-
 from python.gpr import create_mesh
+from sklearn import gaussian_process
 
 matplotlib.use("agg")
 
