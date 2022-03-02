@@ -35,17 +35,23 @@ To create the branin datasest:
 python branin.py
 ```
 
-To run the GPR algorithm locally, using the data saved in `branin.arff`. The model will be saved in `gpr.pickle`.
+To train the GPR classifier locally using the data saved in `branin.arff`,
+follow these steps. The model will be saved in `gpr.pickle`.
+
 ```console
 python gpr.py local
 ```
 
-Unpickling the result, in a Python console or script.:
+Unpickling the result, in a Python console or script:
+
 ```console
 pickle.load(open("gpr.pickle", "rb"))
 ```
 
-Running for OCEAN compute-to-data (assumes "DIDS" is set as an environment variable, input relies on `/data/ddos`, and output is sent to `/data/outputs/result`):
+The OCEAN compute-to-data backend would run this algorithm as shown below. It
+assumes "DIDS" is set as an environment variable, input is found at `/data/ddos`,
+and output is sent to `/data/outputs/result`:
+
 ```console
 python gpr.py
 ```
