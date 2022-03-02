@@ -4,9 +4,10 @@
 #
 import matplotlib
 import numpy
-from gpr import create_mesh
 from matplotlib import cm, pyplot
 from sklearn import gaussian_process
+
+from python.gpr import create_mesh
 
 matplotlib.use("agg")
 
