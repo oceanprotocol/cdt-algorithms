@@ -14,8 +14,8 @@ Create the [branin dataset][1] in ARFF format. Train a [Gaussian Process Regress
 - Python 3.8.5+
 
 ### Installation
-```
 
+```console
 #install non-virtualenv dependencies
 sudo apt-get install python3-tk
 

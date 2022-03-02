@@ -16,8 +16,8 @@ a python script for training a Logistic Regression Classifier based on [this tut
 - Python 3.8.5+
 
 ### Installation
-```
 
+```console
 #install non-virtualenv dependencies
 sudo apt-get install python3-tk
 
