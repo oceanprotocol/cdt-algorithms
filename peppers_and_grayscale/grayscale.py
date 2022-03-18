@@ -11,9 +11,9 @@ from PIL import Image
 
 def get_input(local=False):
     if local:
-        print("Reading local file lena.png.")
+        print("Reading local file peppers.tiff.")
 
-        return "lena.png"
+        return "peppers.tiff"
 
     dids = os.getenv("DIDS", None)
 
@@ -35,10 +35,9 @@ def run_grayscale(local=False):
     if not filename:
         print("Could not retrieve filename.")
         return
-
     img = Image.open(filename).convert("L")
 
-    result_filename = "output/grayscale.png" if local else "/data/outputs/grayscale.png"
+    result_filename = "grayscale.png" if local else "/data/outputs/grayscale.png"
     img.save(result_filename)
 
 
