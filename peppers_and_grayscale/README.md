@@ -2,12 +2,12 @@
 Copyright 2022 Ocean Protocol Foundation
 SPDX-License-Identifier: Apache-2.0
 -->
-# Lena and Grayscale
+# Peppers and Grayscale
 
-This directory contains the [Lena test image][1] and a Grayscale algorithm using
+This directory contains the [Peppers test image][1] and a Grayscale algorithm using
 the [Pillow][2] image processing library.
 
-[1]: https://en.wikipedia.org/wiki/Lenna
+[1]: https://sipi.usc.edu/database/database.php?volume=misc&image=13#top
 [2]: https://pillow.readthedocs.io/en/stable/handbook/overview.html
 
 ### Requirements
@@ -28,8 +28,8 @@ pip install -r requirements.txt
 
 ### Usage
 
-To run the grayscale algorithm on the `lena.png` image, follow these steps.
-The grayscale image will be saved in `output/grayscale.png`.
+To run the grayscale algorithm on the `peppers.tiff` image, follow these steps.
+The grayscale image will be saved in `grayscale.png`.
 
 ```console
 python grayscale.py local
