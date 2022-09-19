@@ -82,7 +82,7 @@ def run_gpr(local=False):
     mat = numpy.stack(res["data"])
     [X, y] = numpy.split(mat, [2], axis=1)
 
-    print("Applying Gaussian processing.")
+    print("Building Gaussian Process Regressor (GPR) model")
     model = gaussian_process.GaussianProcessRegressor()
     model.fit(X, y)
     yhat = model.predict(X, return_std=False)
