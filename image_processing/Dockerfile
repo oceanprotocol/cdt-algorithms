@@ -1,12 +1,12 @@
-FROM python:3.8
+FROM python:3.7
 
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
-    python3 \
-    python3-dev
+    python3-tk \
+    tk-dev \
+    libagg-dev
 
-COPY image_processing.py /tmp/
-RUN pip3 install requests
-RUN pip3 install Pillow==8.3.2
-
-ENTRYPOINT ["python3", "/tmp/image_processing.py"]
+COPY requirements.txt /tmp/
+RUN pip install requests
+RUN pip install wheel
+RUN pip install -r /tmp/requirements.txt
