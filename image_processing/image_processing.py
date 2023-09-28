@@ -40,4 +40,4 @@ if __name__ == "__main__":
     
     filtered_img = apply_filters(image_url, filter=img_filter)
     print("Filters applied and images saved successfully.")
-    print(f"{filtered_img}")
+    filtered_img.show()
