@@ -44,14 +44,25 @@ def apply_filters(filter):
 
     return filtered_img
 
+def get_algorithm_consumer_params():
+    algorithm_did = os.getenv("TRANSFORMATION_DID", None)
+
+    if not algorithm_did:
+        print("No algorithm DID found in environment. Aborting.")
+        return
+
+    with open(f"/data/ddos/{algorithm_did}", "r") as algo_struc:
+        algo_data = json.load(algo_struc)
+
+        return algo_data['metadata']['algorithm']['consumerParameters']
+
+
 
 if __name__ == "__main__":
     # Open and read the JSON file
-    with open("/data/inputs/algoCustomData.json", "r") as file:
-        data = json.load(file)
-
-    print(f"data for consumer parameters: {data}")
-    filtered_img = apply_filters(filter=data["image_filter"])
+    consumer_params = get_algorithm_consumer_params()
+    print(f"data for consumer parameters: {consumer_params}")
+    filtered_img = apply_filters(filter=consumer_params["image_filter"])
     filename = "/data/outputs/filtered_image.png"
     filtered_img.save(filename)
     print(f"Filters applied and images saved successfully as {filename}")
