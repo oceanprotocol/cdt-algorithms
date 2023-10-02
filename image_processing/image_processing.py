@@ -59,10 +59,16 @@ def get_algorithm_consumer_params():
 
 
 if __name__ == "__main__":
-    # Open and read the JSON file
+    # Get consumer parameters
     consumer_params = get_algorithm_consumer_params()
     print(f"data for consumer parameters: {consumer_params}")
-    filtered_img = apply_filters(filter=consumer_params["image_filter"])
+
+    for cp in consumer_params:
+        if cp['name'] == "image_filter":
+            filter = cp['default']
+            break
+
+    filtered_img = apply_filters(filter=filter)
     filename = "/data/outputs/filtered_image.png"
     filtered_img.save(filename)
     print(f"Filters applied and images saved successfully as {filename}")
