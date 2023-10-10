@@ -102,3 +102,8 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# js
+/generating_pdf_report/package.json
+/generating_pdf_report/package-lock.json
+/generating_pdf_report/node_modules/
