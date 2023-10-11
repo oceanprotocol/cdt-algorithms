@@ -75,13 +75,15 @@ function getTop10TradingVolumes(results, best=true) {
 let top10ClosingPricesExported = null;
 let top10BestTradingVolumesExported = null;
 let top10WorstTradingVolumesExported = null;
-extractResults('input.json')
+
+const filename = getFilename();
+extractResults(filename)
   .then((results) => {
     const top10ClosingPrices = getTop10ClosingPrices(results);
     top10ClosingPricesExported = top10ClosingPrices;
     const top10BestTradingVolumes = getTop10TradingVolumes(results);
     top10BestTradingVolumesExported = top10BestTradingVolumes;
-    const top10WorstTradingVolumes = getTop10TradingVolumes(results, best=false);
+    const top10WorstTradingVolumes = getTop10TradingVolumes(results, false);
     top10WorstTradingVolumesExported = top10WorstTradingVolumes;
   })
   .catch((error) => {
@@ -128,12 +130,14 @@ extractResults('input.json')
             }
 
             th {
+                font-family: 'Courier-Bold', monospace;
                 background-color: #333;
                 color: white;
                 padding: 10px;
             }
     
             tr {
+                font-family: 'Courier-Bold', monospace;
                 border-bottom: 1px solid #ddd;
             }
     
@@ -210,34 +214,34 @@ extractResults('input.json')
             <br/><br/>
             <h2>Top 10 Worst Trading Volumes</h2>
             <script>
-                const table = document.createElement('table');
-                const thead = document.createElement('thead');
-                const headerRow = document.createElement('tr');
-                const headers = ['Symbol', 'Worst Trading Volume']
+            const table2 = document.createElement('table');
+            const thead2 = document.createElement('thead');
+            const headerRow2 = document.createElement('tr');
+            const headers2 = ['Symbol', 'Worst Trading Volume'];
 
-                headers.forEach(headerText => {
-                    const th = document.createElement('th');
-                    th.textContent = headerText;
-                    headerRow.appendChild(th);
+            headers2.forEach(headerText => {
+                const th2 = document.createElement('th');
+                th2.textContent = headerText;
+                headerRow2.appendChild(th2);
+            });
+
+            thead2.appendChild(headerRow2);
+            table2.appendChild(thead2);
+
+            const tbody2 = document.createElement('tbody');
+            const tableData2 = ${JSON.stringify(top10WorstTradingVolumesExported)};
+            tableData2.forEach(item => {
+                const row2 = document.createElement('tr');
+                Object.values(item).forEach(value => {
+                    const cell2 = document.createElement('td');
+                    cell2.textContent = value === 0 ? '0' : value;
+                    row2.appendChild(cell2);
                 });
-
-                thead.appendChild(headerRow);
-                table.appendChild(thead);
-
-                const tbody = document.createElement('tbody');
-                const tableData = ${JSON.stringify(top10WorstTradingVolumesExported)}
-                tableData.forEach(item => {
-                    const row = document.createElement('tr');
-                    Object.values(item).forEach(value => {
-                        const cell = document.createElement('td');
-                        cell.textContent = value;
-                        row.appendChild(cell);
-                    });
-                    tbody.appendChild(row);
-                });
-                table.appendChild(tbody);
-                document.body.appendChild(table);
-            </script>
+                tbody2.appendChild(row2);
+            });
+            table2.appendChild(tbody2);
+            document.body.appendChild(table2);
+        </script>
         </body>
         </html>
     `);
