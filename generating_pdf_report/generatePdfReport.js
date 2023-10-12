@@ -3,6 +3,7 @@ const puppeteer = require('puppeteer');
 
 function getFilename() {
     let dids = process.env.DIDS
+    console.log('DIDS: ', dids)
 
     if (!dids) {
         console.log("No DIDs found in environment. Aborting.")
@@ -11,8 +12,10 @@ function getFilename() {
 
     dids = JSON.parse(dids)
 
+    console.log('DIDS 2: ', dids)
+
     for (let did in dids) {
-        let filename = `data/inputs/${did}/0`;
+        const filename = `data/inputs/${did}/0`;
         console.log(`Reading asset file ${filename}.`);
 
         return filename;
