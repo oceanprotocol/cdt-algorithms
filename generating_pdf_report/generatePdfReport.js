@@ -1,6 +1,5 @@
 const fs = require('fs');
 const puppeteer = require('puppeteer');
-const puppeteerCore = require('puppeteer-core');
 
 function getFilename() {
     let dids = process.env.DIDS
@@ -91,14 +90,15 @@ extractResults(filename)
     console.error('Error when extracting the results: ', error);
   });
   (async () => {    
-    const executablePath = '/usr/bin/google-chrome';
+    const executablePath = process.env.PUPPETEER_EXECUTABLE_PATH;
     console.log('executable path: ', executablePath);
-    console.log('top10ClosingPricesExported: ', top10ClosingPricesExported)
     const browser = await puppeteer.launch({
         executablePath: `${executablePath}`,
         headless: true 
     });
     const page = await browser.newPage();
+
+    console.log('top10ClosingPricesExported: ', top10ClosingPricesExported)
 
     // Load an HTML file or content
     await page.setContent(`
@@ -253,7 +253,7 @@ extractResults(filename)
         </html>
     `);
 
-    await page.waitForSelector('#report-chart'); // Wait for the chart to be rendered
+    await page.waitForSelector('#report-chart');
 
     // Generate a PDF
     await page.pdf({ path: 'report.pdf', format: 'A4' });
