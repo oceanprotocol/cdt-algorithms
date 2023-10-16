@@ -94,6 +94,7 @@ extractResults(filename)
     console.log('executable path: ', executablePath);
     const browser = await puppeteer.launch({
         executablePath: `${executablePath}`,
+        args: [ '--disable-gpu', '--disable-setuid-sandbox', '--no-sandbox', '--no-zygote' ],
         headless: true 
     });
     const page = await browser.newPage();
