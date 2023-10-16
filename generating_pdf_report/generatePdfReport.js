@@ -257,7 +257,7 @@ extractResults(filename)
     await page.waitForSelector('#report-chart');
 
     // Generate a PDF
-    await page.pdf({ path: 'report.pdf', format: 'A4' });
+    await page.pdf({ path: '/data/outputs/report.pdf', format: 'A4' });
 
     await browser.close();
 })();
