@@ -91,7 +91,7 @@ extractResults(filename)
     console.error('Error when extracting the results: ', error);
   });
   (async () => {    
-    const executablePath = puppeteerCore.executablePath();
+    const executablePath = '/usr/bin/google-chrome';
     console.log('executable path: ', executablePath);
     console.log('top10ClosingPricesExported: ', top10ClosingPricesExported)
     const browser = await puppeteer.launch({
