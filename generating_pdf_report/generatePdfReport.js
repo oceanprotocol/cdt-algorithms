@@ -91,15 +91,12 @@ extractResults(filename)
   });
   (async () => {    
     const executablePath = process.env.PUPPETEER_EXECUTABLE_PATH;
-    console.log('executable path: ', executablePath);
     const browser = await puppeteer.launch({
         executablePath: `${executablePath}`,
         args: [ '--disable-gpu', '--disable-setuid-sandbox', '--no-sandbox', '--no-zygote' ],
         headless: true 
     });
     const page = await browser.newPage();
-
-    console.log('top10ClosingPricesExported: ', top10ClosingPricesExported)
 
     // Load an HTML file or content
     await page.setContent(`
