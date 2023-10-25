@@ -1,72 +1,92 @@
-const { createCanvas, loadImage } = require('canvas');
-const faceapi = require('face-api.js');
-const fs = require('fs');
+import * as faceapi from 'face-api.js';
 
-// HTML content
 const htmlContent = `
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Face Detection</title>
+  <title>Face Detection in Video</title>
 </head>
 <body>
-    <video id="video" width="640" height="480" autoplay></video>
-    <canvas id="canvas" width="640" height="480"></canvas>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
-    <script src="https://cdn.jsdelivr.net/npm/face-api.js"></script>
+  <video id="video" width="640" height="480" controls></video>
+  <canvas id="canvas" width="640" height="480"></canvas>
+  <a id="downloadLink" style="display: none" download="output.mp4">Download Video</a>
+  <script src="face-api.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
 `;
 
-// Create a virtual DOM and set its content
-const { window, document } = new JSDOM(htmlContent);
-global.document = document;
-global.window = window;
+const htmlContainer = document.createElement('div');
+htmlContainer.innerHTML = htmlContent;
+
+document.body.appendChild(htmlContainer);
+
 const video = document.getElementById('video');
 const canvas = document.getElementById('canvas');
+const downloadLink = document.getElementById('downloadLink');
+const ctx = canvas.getContext('2d');
 
-async function setupVideoStream() {
-    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-    video.srcObject = stream;
-    return video;
+video.src = 'face-demographics-walking-and-pause.mp4';
+
+Promise.all([
+  faceapi.nets.tinyFaceDetector.loadFromUri('models'),
+  faceapi.nets.faceLandmark68Net.loadFromUri('models'),
+  faceapi.nets.faceRecognitionNet.loadFromUri('models'),
+  faceapi.nets.faceExpressionNet.loadFromUri('models'),
+]).then(startVideo);
+
+function startVideo() {
+  navigator.mediaDevices.getUserMedia({ video: true })
+    .then((stream) => {
+      video.srcObject = stream;
+    })
+    .catch((error) => console.error(error));
 }
 
-async function detectFacesInVideo(video) {
-    await faceapi.nets.tinyFaceDetector.loadFromDisk('models');
-    await faceapi.nets.faceLandmark68Net.loadFromDisk('models');
-    await faceapi.nets.faceRecognitionNet.loadFromDisk('models');
-    const context = canvas.getContext('2d');
+video.addEventListener('play', () => {
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
 
-    async function detectFaces() {
-        const detections = await faceapi.detectAllFaces(video,
-            new faceapi.TinyFaceDetectorOptions())
-            .withFaceLandmarks()
-            .withFaceDescriptors();
+  const displaySize = { width: video.videoWidth, height: video.videoHeight };
+  faceapi.matchDimensions(canvas, displaySize);
 
-        context.clearRect(0, 0, canvas.width, canvas.height);
+  const faceDetectionOptions = new faceapi.TinyFaceDetectorOptions({ inputSize: 320 });
 
-        const resizedDetections = faceapi.resizeResults(detections, { width: video.width, height: video.height });
-        resizedDetections.forEach(detection => {
-            const box = detection.detection.box;
-            context.beginPath();
-            context.rect(box.x, box.y, box.width, box.height);
-            context.lineWidth = 2;
-            context.strokeStyle = 'red';
-            context.stroke();
-        });
+  const mediaStream = canvas.captureStream();
+  const mediaRecorder = new MediaRecorder(mediaStream);
+  const recordedChunks = [];
 
-        requestAnimationFrame(detectFaces);
+  mediaRecorder.ondataavailable = (event) => {
+    if (event.data.size > 0) {
+      recordedChunks.push(event.data);
     }
+  };
 
-    video.addEventListener('play', () => {
-        detectFaces();
+  mediaRecorder.onstop = () => {
+    const blob = new Blob(recordedChunks, { type: 'video/mp4' });
+    const url = URL.createObjectURL(blob);
+    downloadLink.href = url;
+    downloadLink.style.display = 'block';
+  };
+
+  mediaRecorder.start();
+
+  async function detectFaces() {
+    const detections = await faceapi.detectAllFaces(video, faceDetectionOptions).withFaceLandmarks().withFaceDescriptors();
+    const resizedDetections = faceapi.resizeResults(detections, displaySize);
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Draw red rectangles around detected faces
+    resizedDetections.forEach((detection) => {
+      const box = detection.detection.box;
+      ctx.strokeStyle = 'red';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(box.x, box.y, box.width, box.height);
     });
-}
 
-async function main() {
-    const video = await setupVideoStream();
-    detectFacesInVideo(video);
-}
+    requestAnimationFrame(detectFaces);
+  }
 
-main();
+  detectFaces();
+});
