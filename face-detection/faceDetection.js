@@ -6,7 +6,7 @@ const { Canvas, Image, ImageData, createCanvas, loadImage } = require('canvas');
 
 faceapi.env.monkeyPatch({ Canvas, Image, ImageData });
 
-const inputVideo = 'face-demographics-walking-and-pause.mp4';
+const inputVideo = 'face-demographics-walking-and-pause2.mp4';
 const outputVideo = 'output.mp4';
 
 function getOriginalFrames() {
@@ -86,7 +86,7 @@ async function main() {
 
   console.log('Face detection and processing complete.');
 
-  const ffmpegCommandOutput = `ffmpeg -i ${outputDirectoryForProcessedFrames}/frame-%04d.png -c:v libx264 -pix_fmt yuv420p ${outputVideo}`
+  const ffmpegCommandOutput = `ffmpeg -i '${outputDirectoryForProcessedFrames}/%04d.png' -c:v libx264 -pix_fmt yuv420p ${outputVideo}`
   exec(ffmpegCommandOutput, (error) => {
     if (error) {
       console.error('Error:', error);
