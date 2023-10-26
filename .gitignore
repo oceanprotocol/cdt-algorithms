@@ -107,3 +107,5 @@ venv.bak/
 /generating_pdf_report/package.json
 /generating_pdf_report/package-lock.json
 /generating_pdf_report/node_modules/
+
+/face-detection/node_modules/
