@@ -80,6 +80,7 @@ const filename = getFilename();
 extractResults(filename)
   .then((results) => {
     const top10ClosingPrices = getTop10ClosingPrices(results);
+    console.log('top10ClosingPrices:', top10ClosingPrices);
     top10ClosingPricesExported = top10ClosingPrices;
     const top10BestTradingVolumes = getTop10TradingVolumes(results);
     top10BestTradingVolumesExported = top10BestTradingVolumes;
@@ -152,11 +153,25 @@ extractResults(filename)
                 padding: 10px;
                 text-align: center;
             }
+            .bar-chart {
+                display: flex;
+                width: 80%;
+                margin: 20px auto;
+                border: 1px solid #000;
+                height: 200px;
+            }
+    
+            .bar {
+                flex: 1;
+                background-color: blue;
+                transition: height 1s;
+            }
         </style>
         </head>
         <body>
             <h1>Finance Report</h1>
             <hr>
+            
             <h2>Top 10 Closing Prices</h2>
             <canvas id="report-chart" width="400" height="200"></canvas>
             <script>
@@ -185,6 +200,7 @@ extractResults(filename)
                 };
                 new Chart(ctx, config);
             </script>
+
             <br/><br/>
             <h2>Top 10 Best Trading Volumes</h2>
             <script>
@@ -250,8 +266,7 @@ extractResults(filename)
         </body>
         </html>
     `);
-
-    await page.waitForSelector('#report-chart');
+    await page.waitForTimeout(2000);
 
     // Generate a PDF
     await page.pdf({ path: '/data/outputs/report.pdf', format: 'A4' });
