@@ -7,6 +7,8 @@ ENV NPM_CONFIG_PREFIX=/home/node/.npm-global \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser \
     NODE_PATH=/home/node/.npm-global/lib/node_modules/
 
-RUN npm install -g puppeteer chart.js fs && \
+COPY package*.json ./
+
+RUN npm install && \
     npm cache clean --force && \
     rm -rf /tmp/*
