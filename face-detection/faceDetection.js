@@ -6,7 +6,7 @@ const { Canvas, Image, ImageData, createCanvas, loadImage } = require('canvas');
 
 faceapi.env.monkeyPatch({ Canvas, Image, ImageData });
 
-const inputVideo = 'face-demographics-walking-and-pause2.mp4';
+const inputVideo = 'face-demographics-walking-and-pause-short.mp4';
 const outputVideo = 'output.mp4';
 
 function getOriginalFrames() {
@@ -32,19 +32,22 @@ async function loadModels() {
   await faceapi.nets.tinyFaceDetector.loadFromDisk('models');
   await faceapi.nets.faceLandmark68Net.loadFromDisk('models');
   await faceapi.nets.faceRecognitionNet.loadFromDisk('models');
+  await faceapi.nets.faceExpressionNet.loadFromDisk('models');
 }
 
 async function processImages(inputDirectory, outputDirectory) {
   const imageFiles = fs.readdirSync(inputDirectory);
 
-  for (let file of imageFiles) {
+  for (const file of imageFiles) {
     if (file.endsWith('.png')) {
       const inputImagePath = path.join(inputDirectory, file);
       const outputImagePath = path.join(outputDirectory, file);
       const image = await loadImage(inputImagePath);
 
       const faceDetectionOptions = new faceapi.TinyFaceDetectorOptions();
-      const detections = await faceapi.detectAllFaces(image, faceDetectionOptions);
+      const detections = await faceapi.detectAllFaces(image, faceDetectionOptions)
+                                .withFaceLandmarks()
+                                .withFaceExpressions();
 
       const canvas = createCanvas(image.width, image.height);
       const ctx = canvas.getContext('2d');
@@ -86,7 +89,7 @@ async function main() {
 
   console.log('Face detection and processing complete.');
 
-  const ffmpegCommandOutput = `ffmpeg -i '${outputDirectoryForProcessedFrames}/%04d.png' -c:v libx264 -pix_fmt yuv420p ${outputVideo}`
+  const ffmpegCommandOutput = `ffmpeg -i ${outputDirectoryForProcessedFrames}/%04d.png -c:v libx264 -pix_fmt yuv420p ${outputVideo}`
   exec(ffmpegCommandOutput, (error) => {
     if (error) {
       console.error('Error:', error);
