@@ -98,7 +98,8 @@ extractResults(filename)
         headless: true 
     });
     const page = await browser.newPage();
-
+    const globalPackage = process.env.NODE_PATH + "chart.js/dist/chart.js";
+    console.log(globalPackage);
     // Load an HTML file or content
     await page.setContent(`
         <!DOCTYPE html>
@@ -106,8 +107,7 @@ extractResults(filename)
         <head>
             <meta charset="UTF-8">
             <title>Finance Report</title>
-            <!-- Include Chart.js from a CDN or your local path -->
-            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script src="${globalPackage}"></script>
             <style>
             body {
                 text-align: center;
