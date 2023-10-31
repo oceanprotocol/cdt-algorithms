@@ -67,7 +67,7 @@ def get_top_10_trading_volumes(best=True):
 
 if __name__ == "__main__":
 
-    results = extract_results('input.json')
+    results = extract_results(get_filename())
     top_10_closing_prices = get_top_10_closing_prices(results=results)
 
     categories = [closing_price["symbol"] for closing_price in top_10_closing_prices]
