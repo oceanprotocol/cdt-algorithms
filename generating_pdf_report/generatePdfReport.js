@@ -107,7 +107,7 @@ extractResults(filename)
         <head>
             <meta charset="UTF-8">
             <title>Finance Report</title>
-            <script src="${globalPackage}"></script>
+            <script type="module" src="${globalPackage}"></script>
             <style>
             body {
                 text-align: center;
