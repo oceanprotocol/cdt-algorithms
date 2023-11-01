@@ -102,7 +102,7 @@ if __name__ == "__main__":
     plt.savefig('bar_chart.png')
 
     # Create a PDF document
-    pdf_filename = '/root/data/outputs/report.pdf'
+    pdf_filename = '/data/outputs/report.pdf'
     c = canvas.Canvas(pdf_filename, pagesize=letter)
     c.setFillColor(colors.grey)
     c.setFont("Helvetica-Bold", 24)
