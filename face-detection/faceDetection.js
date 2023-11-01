@@ -90,9 +90,11 @@ async function main() {
   console.log('Face detection and processing complete.');
 
   const ffmpegCommandOutput = `ffmpeg -i ${outputDirectoryForProcessedFrames}/%04d.png -c:v libx264 -pix_fmt yuv420p ${outputVideo}`
-  exec(ffmpegCommandOutput, (error) => {
+  exec(ffmpegCommandOutput, async (error) => {
     if (error) {
       console.error('Error:', error);
+      // Try again to process the frames
+      await processImages(inputDirectory, outputDirectoryForProcessedFrames);
     } else {
       console.log('Frames extracted successfully.');
     }
