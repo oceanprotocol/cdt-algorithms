@@ -18,7 +18,7 @@ function getFilename() {
   dids = JSON.parse(dids)
 
   for (const did of dids) {
-      const filename = `data/inputs/${did}/0`;
+      const filename = `/data/inputs/${did}/0`;
       console.log(`Reading asset file ${filename}.`);
 
       return filename;
@@ -34,7 +34,7 @@ function getOriginalFrames() {
 
   const inputVideo = getFilename();
 
-  const ffmpegCommand = `ffmpeg -i ${inputVideo} '${outputDirectoryForOriginalFrames}/%04d.png'`;
+  const ffmpegCommand = `ffmpeg -i '${inputVideo}' '${outputDirectoryForOriginalFrames}/%04d.png'`;
 
   exec(ffmpegCommand, (error) => {
     if (error) {
