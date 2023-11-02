@@ -94,6 +94,9 @@ async function main() {
     if (error) {
       console.error('Error:', error);
       // Try again to process the frames
+      if (!fs.existsSync(outputDirectoryForProcessedFrames)) {
+        fs.mkdirSync(outputDirectoryForProcessedFrames);
+      }
       await processImages(inputDirectory, outputDirectoryForProcessedFrames);
     } else {
       console.log('Frames extracted successfully.');
