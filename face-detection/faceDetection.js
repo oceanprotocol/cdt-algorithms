@@ -18,7 +18,7 @@ function getFilename() {
   dids = JSON.parse(dids)
 
   for (const did of dids) {
-      const filename = `/data/inputs/${did}/0`;
+      const filename = path.join(`/data/inputs/${did}`, '0');
       console.log(`Reading asset file ${filename}.`);
 
       return filename;
