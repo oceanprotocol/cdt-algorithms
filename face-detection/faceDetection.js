@@ -5,9 +5,25 @@ const { exec } = require('child_process');
 const { Canvas, Image, ImageData, createCanvas, loadImage } = require('canvas');
 
 faceapi.env.monkeyPatch({ Canvas, Image, ImageData });
+const outputVideo =  path.join('/data/outputs/', 'output.mp4');
 
-const inputVideo = 'face-demographics-walking-and-pause-short.mp4';
-const outputVideo = 'output.mp4';
+function getFilename() {
+  let dids = process.env.DIDS
+
+  if (!dids) {
+      console.log("No DIDs found in environment. Aborting.")
+      return
+  }
+
+  dids = JSON.parse(dids)
+
+  for (const did of dids) {
+      const filename = `data/inputs/${did}/0`;
+      console.log(`Reading asset file ${filename}.`);
+
+      return filename;
+  }
+}
 
 function getOriginalFrames() {
   const outputDirectoryForOriginalFrames = 'frames';
@@ -15,6 +31,8 @@ function getOriginalFrames() {
   if (!fs.existsSync(outputDirectoryForOriginalFrames)) {
     fs.mkdirSync(outputDirectoryForOriginalFrames);
   }
+
+  const inputVideo = getFilename();
 
   const ffmpegCommand = `ffmpeg -i ${inputVideo} '${outputDirectoryForOriginalFrames}/%04d.png'`;
 
