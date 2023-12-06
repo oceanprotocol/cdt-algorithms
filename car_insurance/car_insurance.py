@@ -121,10 +121,10 @@ def getInputFiles():
 
 def main():
     print("----======Start======----") 
-    print("\n Please pass: 1. The model DID first(.h5 model) \n 2. The images zip files")
+    print("\n Please pass: \n1. The model DID first(.h5 model) \n 2. The images zip files\n")
 
     input_files = getInputFiles()
-    if len(input_files) < 2: 
+    if (input_files is None or len(input_files) < 2):
         print("Error - input files not available")
         return
 
