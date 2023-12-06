@@ -118,9 +118,36 @@ def getInputFiles():
 
     return files
 
+def printFilesAndDirs(walk_dir):
+    print('walk_dir = ' + walk_dir)
+
+    print('walk_dir (absolute) = ' + os.path.abspath(walk_dir))
+
+    for root, subdirs, files in os.walk(walk_dir):
+        print('--\nroot = ' + root)
+
+        for filename in files:
+            file_path = os.path.join(root, filename)
+
+            print('\t- file %s (full path: %s)' % (filename, file_path))
+        
+        for subdir in subdirs: 
+            print('\t- subdirectory ' + subdir)
+            printFilesAndDirs(subdir)
+
+def printEnvVariables():
+    for name, value in os.environ.items():
+        print("{0}: {1}".format(name, value))
+
 def main():
     print("----======Start======----") 
     print("\n Please pass: \n1. The model DID first(.h5 model) \n 2. The images zip files\n")
+
+    print(f"\n\n-----======ENV VAR=======--------")    
+    printEnvVariables()
+    
+    print(f"\n\n-----======DATA DIR=======--------")    
+    printFilesAndDirs('data')
 
     input_files = getInputFiles()
     if (input_files is None or len(input_files) < 2):
