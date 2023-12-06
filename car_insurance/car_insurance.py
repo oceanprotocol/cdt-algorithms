@@ -2,7 +2,6 @@ import os
 import json
 import numpy as np
 import cv2
-from PIL import Image, ImageFilter
 from keras.models import load_model
 import zipfile
 
