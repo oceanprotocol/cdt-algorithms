@@ -118,12 +118,12 @@ def getInputFiles():
 
     return files
 
-def printFilesAndDirs(walk_dir):
-    print('walk_dir = ' + walk_dir)
+def printFilesAndDirs(directory):
+    print('directory = ' + directory)
 
-    print('walk_dir (absolute) = ' + os.path.abspath(walk_dir))
+    print('directory (absolute) = ' + os.path.abspath(directory))
 
-    for root, subdirs, files in os.walk(walk_dir):
+    for root, subdirs, files in os.walk(directory):
         print('--\nroot = ' + root)
 
         for filename in files:
@@ -139,6 +139,13 @@ def printEnvVariables():
     for name, value in os.environ.items():
         print("{0}: {1}".format(name, value))
 
+def createDirectory(directory_path):
+    print("Creating a new directory at path: " + directory_path)
+    try:
+        os.mkdir(directory_path)
+    except OSError as error:
+        print("Error creating directory" + error) 
+    
 def main():
     print("----======Start======----") 
     print("\n Please pass: \n1. The model DID first(.h5 model) \n 2. The images zip files\n")
@@ -162,21 +169,20 @@ def main():
     print("Reading images from path: " + input_images_path)
     assert os.path.exists(model_path), "Images not found at path!"
 
-    output_path = '/data/outputs/predictions'
-    print("Creating the output directory at path: " + output_path)
-    try:
-        os.mkdir(output_path)
-    except OSError as error:
-        print() 
+    unzipped_path = '/data/outputs/images'
+    createDirectory(unzipped_path)
 
-    print("Unzipping the input files")
+    results_path = '/data/outputs/results'
+    createDirectory(results_path)
+
+    print("Unzipping the input files. Input path: " + input_images_path + " output path: " + unzipped_path)
     with zipfile.ZipFile(input_images_path, 'r') as zip_ref:
-        zip_ref.extractall(input_images_path)
+        zip_ref.extractall(unzipped_path)
 
     print("----======Running prediction======----") 
     run_prediction(model_path=model_path, 
-                input_images_path=input_images_path, 
-                output_path=output_path,
+                input_images_path=unzipped_path, 
+                output_path=results_path,
                 mean=np.array([0.485, 0.456, 0.406]),
                 std=np.array([0.229, 0.224, 0.225]))
     
