@@ -111,7 +111,7 @@ def getInputFiles():
     dids = json.loads(dids)
     files = []
     for did in dids:
-        inputFile = f"data/inputs/{did}"  # 0 for metadata service
+        inputFile = f"data/inputs/{did}/0"  # 0 for metadata service
         print(f"Reading asset file {inputFile}.")
 
         files.append(inputFile)
