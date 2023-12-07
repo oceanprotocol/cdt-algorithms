@@ -53,18 +53,23 @@ def save_images_with_mask_overlay(images, output_path, masks, std=None, mean=Non
         cv2.imwrite(image_path, image_with_overlay)
 
 def run_prediction(model_path, input_images_path, output_path, num_images=None, max_num_images_per_line=1, std=None, mean=None):
+    print("Loading the model from path: " + model_path)
     model = load_model(model_path, compile=False)
     output_directory = output_path if output_path is not None else '/data/outputs/results'
+    print("Results directory: " + model_path)
 
     images_paths = [os.path.join(input_images_path, image_filename) for image_filename in os.listdir(input_images_path)]
     num_images = num_images if num_images is not None and num_images < len(images_paths) else len(images_paths)
     images_paths = images_paths[:num_images]
+    print("Number of input images:" + num_images)
+    print("Input images paths: " + images_paths)
 
     resize = (model.input_shape[1], model.input_shape[2])
 
     images = []
     masks = []
     for image_path in images_paths:
+        print("Running prediction on: " + image_path)
         if not image_path.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif')):
             continue
 
