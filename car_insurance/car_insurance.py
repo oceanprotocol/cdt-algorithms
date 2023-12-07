@@ -22,7 +22,6 @@ def overlay_mask_on_image(image, mask, alpha=0.5):
                 overlay[i,j,0] = 0
                 overlay[i,j,1] = 255
                 overlay[i,j,2] = 0
-
     # apply alpha
     cv2.addWeighted(overlay, alpha, output, 1 - alpha, 0, output)
 
@@ -56,13 +55,12 @@ def run_prediction(model_path, input_images_path, output_path, num_images=None, 
     print("Loading the model from path: " + model_path)
     model = load_model(model_path, compile=False)
     output_directory = output_path if output_path is not None else '/data/outputs/results'
-    print("Results directory: " + model_path)
+    print("Results directory: " + output_directory)
 
     images_paths = [os.path.join(input_images_path, image_filename) for image_filename in os.listdir(input_images_path)]
     num_images = num_images if num_images is not None and num_images < len(images_paths) else len(images_paths)
     images_paths = images_paths[:num_images]
-    print("Number of input images:" + num_images)
-    print("Input images paths: " + images_paths)
+    print("Number of input images:" + str(num_images))
 
     resize = (model.input_shape[1], model.input_shape[2])
 
@@ -176,7 +174,7 @@ def main():
 
     unzipped_path = '/data/outputs/images'
     createDirectory(unzipped_path)
-
+    
     results_path = '/data/outputs/results'
     createDirectory(results_path)
 
@@ -184,9 +182,14 @@ def main():
     with zipfile.ZipFile(input_images_path, 'r') as zip_ref:
         zip_ref.extractall(unzipped_path)
 
+    # The zip file contains a folder called images 
+    unzipped_images_path = os.path.join(unzipped_path, "images")
+    
+    print("Unzipped images are at folder: " + unzipped_images_path) 
+
     print("----======Running prediction======----") 
     run_prediction(model_path=model_path, 
-                input_images_path=unzipped_path, 
+                input_images_path=unzipped_images_path, 
                 output_path=results_path,
                 mean=np.array([0.485, 0.456, 0.406]),
                 std=np.array([0.229, 0.224, 0.225]))
