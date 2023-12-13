@@ -178,8 +178,8 @@ def main():
     unzipped_path = '/data/outputs/images'
     createDirectory(unzipped_path)
     
-    results_path = '/data/outputs/results'
-    createDirectory(results_path)
+    results_path = '/data/outputs'
+    # createDirectory(results_path)
 
     print("Unzipping the input files. Input path: " + input_images_path + " output path: " + unzipped_path)
     with zipfile.ZipFile(input_images_path, 'r') as zip_ref:
