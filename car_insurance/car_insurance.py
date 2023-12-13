@@ -2,8 +2,11 @@ import os
 import json
 import numpy as np
 import cv2
+import tensorflow as tf
 from keras.models import load_model
 import zipfile
+
+print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 
 def overlay_mask_on_image(image, mask, alpha=0.5):
     # convert mask to RGB
