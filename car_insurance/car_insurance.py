@@ -150,7 +150,7 @@ def createDirectory(directory_path):
     try:
         os.mkdir(directory_path)
     except OSError as error:
-        print("Error creating directory" + error) 
+        print("Error creating directory") 
     
 def main():
     print("----======Start======----") 
